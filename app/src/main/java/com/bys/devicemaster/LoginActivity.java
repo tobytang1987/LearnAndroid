@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bys.devicemaster.module.User;
+import com.bys.devicemaster.network.ServiceFactory;
 import com.bys.devicemaster.network.UserService;
 
 import java.io.IOException;
@@ -342,13 +343,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.3.2:12306").addConverterFactory(GsonConverterFactory.create()).build();
-            UserService userService = retrofit.create(UserService.class);
-            Response<User> user = null;
             try {
-                user = userService.getUser().execute();
-                Log.i("usersssssssssssssss", user.body().getEmail());
-                Log.i("usersssssssssssssss", user.body().getPassword());
+                ServiceFactory serviceFactory = new ServiceFactory(GsonConverterFactory.create());
+                serviceFactory.getService(UserService.class).getUser();
             } catch (IOException e) {
                 e.printStackTrace();
             }
